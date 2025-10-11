@@ -21,17 +21,11 @@ void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float MovementRate = 500.f;
-	float RotationRate = 45.f;
+	RunningTime += DeltaTime;
 
-	// if you want spin arround your-self
-	//AddActorLocalOffset(FVector(MovementRate * DeltaTime, 0, 0));
-	//AddActorLocalRotation(FRotator(0, RotationRate * DeltaTime, 0));
-
-
-	//if you want move forward and spin by yourself.
-	AddActorWorldOffset(FVector(0, RotationRate * DeltaTime, 0));
-	AddActorWorldRotation(FRotator(0, RotationRate * DeltaTime, 0));
+	float DeltaZ = Amplitude * FMath::Sin(RunningTime * TimeConstant);
+	AddActorWorldOffset(FVector(0.f,0.f,DeltaZ));
+	
 	DRAW_SPHERE_SigleFrame(GetActorLocation());
 	DRAW_VECTOR_SigleFrame(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 1000.f)
 }
