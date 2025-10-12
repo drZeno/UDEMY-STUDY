@@ -13,6 +13,7 @@ class UDEMY1_API AItem : public AActor
 	
 public:	
 	AItem();
+	
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
@@ -28,8 +29,13 @@ protected:
 
 	UFUNCTION(BlueprintPure)
 	float TransformedCos();
-	
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"));
-	float RunningTime;
+	float RunningTime = 0.f;
+
+	UPROPERTY(VisibleAnywhere);
+	UStaticMeshComponent* ItemMesh;
 };
+
+
