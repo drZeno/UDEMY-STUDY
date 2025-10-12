@@ -1,0 +1,32 @@
+# Unreal Engine: исключаем временные и большие директории
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+
+# IDE
+.vscode/
+.vs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Логи и бинарники
+*.log
+*.pdb
+*.exe
+*.dll
+
+# Игнорируем все ассеты по умолчанию
+Content/**/*.uasset
+Content/**/*.umap
+
+# Но включаем блюпринты, если они в Content/Blueprints
+!Content/Blueprints/**/*.uasset
+!Content/Blueprints/**/*.umap
+
+# Оставляем код и конфиги
+!Source/**
+!Config/**
