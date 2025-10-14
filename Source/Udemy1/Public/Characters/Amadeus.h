@@ -19,8 +19,8 @@ class UDEMY1_API AAmadeus : public ACharacter
 	GENERATED_BODY()
 public:
 	// Sets default values for this character's properties
-	AAmadeus();
-	virtual void Tick(float DeltaTime) override;
+	AAmadeus(); // конструктор
+	virtual void Tick(float DeltaTime) override; // метод класса
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
@@ -34,12 +34,15 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadOnly,Category="Input")
 	UInputAction* FreeLook;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
+	UInputAction* JumpAction;
 	
 	void MoveRightForward(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 
 	UPROPERTY(VisibleAnywhere)
-	USpringArmComponent* SpringArm;
+	USpringArmComponent* SpringArm; // компонент класса 
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* ViewCamera;

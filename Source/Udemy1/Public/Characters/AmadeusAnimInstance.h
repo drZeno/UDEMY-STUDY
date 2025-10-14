@@ -23,5 +23,8 @@ class UDEMY1_API UAmadeusAnimInstance : public UAnimInstance
 
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	float GroundSpeed;
+
+	UPROPERTY(BlueprintReadWrite, Category = Movement)
+	bool isFalling;
 	
 };

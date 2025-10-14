@@ -15,8 +15,11 @@ void UAmadeusAnimInstance::NativeInitializeAnimation()
 	{
 		AmadeusCharacterMovement = AmadeusCharacter->GetCharacterMovement();
 	}
-	
-	
+	else
+	{
+		// Каст не удался — объект не того класса
+		UE_LOG(LogTemp, Warning, TEXT("Cast failed!"));
+	}
 }
 
 void UAmadeusAnimInstance::NativeUpdateAnimation(float DeltaTime)
@@ -27,7 +30,6 @@ void UAmadeusAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	{
 		
 		GroundSpeed = UKismetMathLibrary::VSizeXY(AmadeusCharacterMovement->Velocity);
+		isFalling = AmadeusCharacterMovement->IsFalling();// для анимации прыжка
 	}
-
-	
 }

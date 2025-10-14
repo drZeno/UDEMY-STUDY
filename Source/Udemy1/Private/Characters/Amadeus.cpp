@@ -60,6 +60,7 @@ void AAmadeus::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisValue.Y);
 	}
 }
+
 //
 void AAmadeus::Tick(float DeltaTime)
 {
@@ -75,6 +76,8 @@ void AAmadeus::SetupPlayerInputComponent(class UInputComponent* PlayerInputCompo
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AAmadeus::MoveRightForward);
 		EnhancedInputComponent->BindAction(FreeLook, ETriggerEvent::Triggered, this, &AAmadeus::Look);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AAmadeus::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AAmadeus::StopJumping);
 	}
 }
 
