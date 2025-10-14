@@ -36,14 +36,14 @@ void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	float RotationSpeed = 90.f;
+	RunningTime += DeltaTime;
+	float RotationSpeed = 110.f;
     AddActorWorldRotation(FRotator(0.f, RotationSpeed * DeltaTime, 0.f));
 	
-	//float DeltaZ = Amplitude * FMath::Sin(RunningTime * TimeConstant);
+	float DeltaZ = Amplitude * FMath::Sin(RunningTime * TimeConstant);
 	//Spiral Moving
-	//AddActorWorldOffset(FVector(RunningTime,TransformedCos(),TransformedSin()));
-	//AddActorWorldOffset(FVector(0.f,TransformedCos(),TransformedSin()));
-	//DRAW_SPHERE_SingleFrame(GetActorLocation());
-	//DRAW_VECTOR_SigleFrame(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 1000.f)
+	AddActorWorldOffset(FVector(TransformedSin(),TransformedCos(),0));
+	DRAW_SPHERE_SingleFrame(GetActorLocation());
+	DRAW_VECTOR_SigleFrame(GetActorLocation(), GetActorLocation() + GetActorForwardVector() * 600.f)
 }
 

@@ -19,10 +19,13 @@ protected:
 	virtual void BeginPlay() override;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
-	float Amplitude = 0.25f;
+	float Amplitude = 5.f;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
 	float TimeConstant = 5.f;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
+	float XSpeed = 50.f;
 
 	UFUNCTION(BlueprintPure)
 	float TransformedSin();
@@ -32,7 +35,7 @@ protected:
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"));
-	float RunningTime = 0.f;
+	float RunningTime;
 
 	UPROPERTY(VisibleAnywhere);
 	UStaticMeshComponent* ItemMesh;
