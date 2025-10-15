@@ -7,6 +7,9 @@
 #include "Animation/AnimInstanceProxy.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Items/Item.h"
+#include "Weapons/Weapon.h"
+
 
 
 // Sets default values
@@ -61,6 +64,19 @@ void AAmadeus::Look(const FInputActionValue& Value)
 	}
 }
 
+void AAmadeus::PickupItem(const FInputActionValue& Value)
+{
+	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
+	if (OverlappingWeapon)
+	{
+		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+	}
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("E Pressed!"));
+	}
+}
+
 //
 void AAmadeus::Tick(float DeltaTime)
 {
@@ -78,6 +94,7 @@ void AAmadeus::SetupPlayerInputComponent(class UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(FreeLook, ETriggerEvent::Triggered, this, &AAmadeus::Look);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AAmadeus::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AAmadeus::StopJumping);
+		EnhancedInputComponent->BindAction(Interact, ETriggerEvent::Started, this, &AAmadeus::PickupItem);
 	}
 }
 

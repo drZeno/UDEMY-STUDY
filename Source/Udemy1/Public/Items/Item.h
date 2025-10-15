@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Item.generated.h"
 
+class USphereComponent;
+
 UCLASS()
 class UDEMY1_API AItem : public AActor
 {
@@ -18,27 +20,21 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
-	float Amplitude = 5.f;
+	UFUNCTION(BlueprintCallable)
+	virtual void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent,AActor* OtherActor,UPrimitiveComponent* OtherComp,int32 OtherBodyIndex,bool bFromSweep,const FHitResult& SweepResult);
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
-	float TimeConstant = 5.f;
+	UFUNCTION(BlueprintCallable)
+	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category="Sine Parameters");
-	float XSpeed = 50.f;
-
-	UFUNCTION(BlueprintPure)
-	float TransformedSin();
-
-	UFUNCTION(BlueprintPure)
-	float TransformedCos();
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly);
+	UStaticMeshComponent* ItemMesh;
+	
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"));
 	float RunningTime;
-
+	
 	UPROPERTY(VisibleAnywhere);
-	UStaticMeshComponent* ItemMesh;
+	USphereComponent* SphereComponent;
 };
 
 

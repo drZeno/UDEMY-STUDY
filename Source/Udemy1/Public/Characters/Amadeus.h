@@ -12,6 +12,7 @@ class UInputAction;
 class UInputMappingContext;
 class UCameraComponent;
 class USpringArmComponent;
+class AItem;
 
 UCLASS()
 class UDEMY1_API AAmadeus : public ACharacter
@@ -38,13 +39,23 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
 	UInputAction* JumpAction;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Input")
+	UInputAction* Interact;
+	
 	void MoveRightForward(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
+	void PickupItem(const FInputActionValue& Value);
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm; // компонент класса 
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* ViewCamera;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category="Items")
+	AItem* OverlappingItem;
+public:
+	FORCEINLINE void SetOverlappingItem(AItem* Item) {OverlappingItem = Item;}
+	
 
 };
