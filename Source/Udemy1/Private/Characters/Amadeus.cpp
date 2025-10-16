@@ -5,6 +5,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Animation/AnimInstanceProxy.h"
+#include "Animation/AnimMontage.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Items/Item.h"
@@ -27,7 +28,7 @@ AAmadeus::AAmadeus()
 	
 }
 
-
+//Подключение игроку Subsystem для управления Enhanced Input
 void AAmadeus::BeginPlay()
 {
 	Super::BeginPlay();
@@ -42,49 +43,7 @@ void AAmadeus::BeginPlay()
 	}
 	
 }
-// Controll
-void AAmadeus::MoveRightForward(const FInputActionValue& Value)
-{
-	auto MovementVector = Value.Get<FVector2D>();
-	if (Controller)
-	{
-		AddMovementInput(GetActorForwardVector(), MovementVector.X);
-		AddMovementInput(GetActorRightVector(), MovementVector.Y);
-	}
-}
-
-
-void AAmadeus::Look(const FInputActionValue& Value)
-{
-	auto LookAxisValue = Value.Get<FVector2D>();
-	if (GetController())
-	{
-		AddControllerYawInput(LookAxisValue.X);
-		AddControllerPitchInput(LookAxisValue.Y);
-	}
-}
-
-void AAmadeus::PickupItem(const FInputActionValue& Value)
-{
-	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
-	if (OverlappingWeapon)
-	{
-		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
-	}
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("E Pressed!"));
-	}
-}
-
-//
-void AAmadeus::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
+//Enhanced input action mapping кнопки
 void AAmadeus::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -95,6 +54,76 @@ void AAmadeus::SetupPlayerInputComponent(class UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &AAmadeus::Jump);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &AAmadeus::StopJumping);
 		EnhancedInputComponent->BindAction(Interact, ETriggerEvent::Started, this, &AAmadeus::PickupItem);
+		EnhancedInputComponent->BindAction(MeleeAttack, ETriggerEvent::Started, this, &AAmadeus::MAttack);
 	}
 }
+
+// Получение Y X для управления пешкой 
+void AAmadeus::MoveRightForward(const FInputActionValue& Value)
+{
+	auto MovementVector = Value.Get<FVector2D>();
+	if (Controller)
+	{
+		AddMovementInput(GetActorForwardVector(), MovementVector.X);
+		AddMovementInput(GetActorRightVector(), MovementVector.Y);
+	}
+}
+
+// Смотреть мышкой
+void AAmadeus::Look(const FInputActionValue& Value)
+{
+	auto LookAxisValue = Value.Get<FVector2D>();
+	if (GetController())
+	{
+		AddControllerYawInput(LookAxisValue.X);
+		AddControllerPitchInput(LookAxisValue.Y);
+	}
+}
+
+//Поднятие предмета при нажатии E
+void AAmadeus::PickupItem(const FInputActionValue& Value)
+{
+	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
+	if (OverlappingWeapon)
+	{
+		OverlappingWeapon->Equip(GetMesh(), FName("RightHandSocket"));
+		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+	}
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("E Pressed!"));
+	}
+}
+
+void AAmadeus::MAttack(const FInputActionValue& Value)
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && AttackMontage)
+	{
+		AnimInstance->Montage_Play(AttackMontage);
+		int32 Selection = FMath::RandRange(0, 1);
+		FName SectionName = FName();
+		switch (Selection)
+		{
+			case 0:
+				SectionName = FName("Attack1");
+				break;
+			case 1:
+			    SectionName = FName("Attack2");
+				break;
+			default:
+				break;
+		}
+		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
+	}
+}
+
+
+void AAmadeus::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+}
+
+
 

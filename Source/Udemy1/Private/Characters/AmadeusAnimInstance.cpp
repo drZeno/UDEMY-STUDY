@@ -31,5 +31,6 @@ void UAmadeusAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		
 		GroundSpeed = UKismetMathLibrary::VSizeXY(AmadeusCharacterMovement->Velocity);
 		isFalling = AmadeusCharacterMovement->IsFalling();// для анимации прыжка
+		CharacterState = AmadeusCharacter->GetCharacterState();
 	}
 }

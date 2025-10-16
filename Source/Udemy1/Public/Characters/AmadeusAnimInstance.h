@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Amadeus.h"
 #include "AmadeusAnimInstance.generated.h"
 
 UCLASS()
@@ -26,5 +27,8 @@ class UDEMY1_API UAmadeusAnimInstance : public UAnimInstance
 
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	bool isFalling;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement | Character State")
+	ECharacterState CharacterState;
 	
 };

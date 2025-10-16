@@ -25,10 +25,10 @@ void AWeapon::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActo
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	Super::OnSphereEndOverlap(OverlappedComponent, OtherActor, OtherComp, OtherBodyIndex);
-	AAmadeus* AmadeusCharacter = Cast<AAmadeus>(OtherActor);
-	if (AmadeusCharacter)
+	AAmadeus* Character = Cast<AAmadeus>(OtherActor);
+	if (Character)
 	{
-		AmadeusCharacter->SetOverlappingItem(nullptr);
+		Character->SetOverlappingItem(nullptr);
 	}
 }
 
